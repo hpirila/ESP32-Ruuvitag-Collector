@@ -12,7 +12,7 @@ Main functionalities are:
 - Print and send data from offline SPIF File storage
 
 ## Mandatory network configurations
-All configurations are in `config.hpp` file
+All configurations are in `config.cpp` file
 
 WiFi SSD name
 
