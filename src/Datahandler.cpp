@@ -121,7 +121,7 @@ void Datahandler::sendMqtt(){
         return;
     }
 
-    if(global::bootCount<2){
+    if(global::bootCount<2 || global::bootCount % 7 == 0){
         network::mqtt::publishDiscovery(macAddress);
     }
 

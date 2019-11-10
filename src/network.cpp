@@ -31,6 +31,7 @@ namespace network {
             if(WiFi.isConnected()){
                 time_t timeNow;
                 Serial.print("NTP update starting... ");
+                
                 configTime(0,0,config::ntpServerIP.c_str());
                 delay(500);
                 Serial.println("NTP update completed.");
@@ -91,8 +92,15 @@ namespace network {
 
         void begin(){
             if(WiFi.isConnected() && config::mqttServerIP!=std::string()){
+                std::string macAddress=WiFi.macAddress().c_str();
+                std::string id;
+                std::stringstream stream;
+                stream << "ESP32";
+                stream << macAddress.substr(0,2)  << macAddress.substr(3,2);
+                stream << macAddress.substr(6,2)  << macAddress.substr(9,2);
+                stream << macAddress.substr(12,2) << macAddress.substr(15,2);
                 client.setServer(config::mqttServerIP.c_str(),config::mqttServerPort);
-                client.connect ("xxx",config::mqttServerUsername.c_str(),config::mqttServerPassword.c_str());
+                client.connect (stream.str().c_str(),config::mqttServerUsername.c_str(),config::mqttServerPassword.c_str());
             }
         }
 
