@@ -25,7 +25,7 @@ void AdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice advertisedDevice){
         Datahandler dh=Datahandler(data,mac);
         dh.setTime();
         dh.buildMeasurement();
-        dh.writeSpif();
+        dh.writeStorage();
         dh.writeInflux();
         dh.sendMqtt();
     }

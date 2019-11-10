@@ -6,10 +6,11 @@ Main functionalities are:
 - MQTT publishing
 - MQTT Automatic discovery for Home Assistant
 - Store measurements to ESP32 own SPIF File System
+- Store measurements to microSD card
 - Use as a primary weather station data collector by sending measuments in regular intervals
 - Use as a backup weather station data collector with low energy consumption
 - Ruuvitag white list, collect measurements from listed Ruuvitags only
-- Print and send data from offline SPIF File storage
+- Print and send data from offline SPIF File storage or microSD card
 
 ## Mandatory network configurations
 All configurations are in `config.cpp` file
@@ -148,8 +149,16 @@ Time zone is used only for console and does not impact to data sent to Influx. I
 
 `timeZone="UTC-3"`
 
+Set value `true` to store measurements to microSD or SD card. 
+
+`useSDCard=false"`
+
+Set value `true` if you are using ESP32CAM module. It has microSD card slot but also a flash LED for camera which is flashing everytime you write to microSD card. This setting improves the behaviour of flash LED.
+
+`moduleIsESP32Cam=false`
+
 ## Managing offline SPIF File System Storage and files
-When you reset ESP32 and it successfully connects to WiFi you have a possibility to enter menu from serial console by pressing any number key. Note that you have only 2 seconds time to do so. If you fail, just reset and try again. In menu you have various options to print and send files to Influx database. You can also delete files and format the entire SPIFFS.
+When you reset ESP32 you have a possibility to enter menu from serial console by pressing any number key. Note that you have only 2 seconds time to do so. If you fail, just reset and try again. In menu you have various options to print and send files to Influx database. You can also delete files and format the entire SPIFFS.
 
 ## Compiling
 This software requires PlatformIO environment for compiling. Easiest way to get it is perhaps using Visual Studio Code and its PlatformIO add on. Use your favorite search engine to find out more on setting up PlatformIO.

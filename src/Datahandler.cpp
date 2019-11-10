@@ -18,7 +18,6 @@ Datahandler::Datahandler(std::string dataIn, std::string macAddressIn){
             }
         }
     }
-    //buildMeasurement();
 }
 
 Datahandler::~Datahandler(){
@@ -72,13 +71,13 @@ void Datahandler::prepareStorage(){
     }
 }
 
-void Datahandler::writeSpif(){
+void Datahandler::writeStorage(){
     if(measurement.measurementType==Measurement::undefined){
         return;
     }
 
     prepareStorage();
-    storage::spif::write(storeFileName,storageData);
+    storage::write(storeFileName,storageData);
     Serial.print(macAddress.c_str());
     Serial.print(" t=");
     Serial.println(measurement.getTemperature());

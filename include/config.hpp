@@ -42,6 +42,8 @@ namespace config{
     extern std::string mqttServerUsername;
     extern std::string mqttServerPassword;
     extern std::string mqttHomeAssistantDiscoveryTopic;
+    extern bool useSDCard;
+    extern bool moduleIsESP32Cam;
 
     void setValues();
 

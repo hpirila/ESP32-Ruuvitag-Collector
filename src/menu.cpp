@@ -235,6 +235,7 @@ namespace menu{
                 case '2':
                     selection=255;                    
                     while(selection!='9'){
+                        storage::sd::begin();
                         subMenu2();
                         if(storage::sd::sdMounted){
                             selection=inputCharacter("12345679");
@@ -243,6 +244,7 @@ namespace menu{
                         }
                         readSelection(storage::FileSystemType::sd_mmc,selection);
                     }
+                    storage::sd::end();
                     break;
                 case '3':
                     selection=255;                    
@@ -305,7 +307,7 @@ namespace menu{
     }
 
     void menu(){
-        if(WiFi.isConnected()){
+        if(WiFi.isConnected() || global::bootCount<2){
             _menu();
         }
     }

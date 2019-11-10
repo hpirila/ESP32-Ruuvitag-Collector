@@ -14,14 +14,18 @@
 namespace storage{
   enum OutputType {print,influx};
   enum FileSystemType {spiffs,sd_mmc};
-
+  void begin();
+  void end();
+  void write(std::string fileName,std::string data);
+  
   namespace spif{
+    void begin();
+    void end();
     bool read(std::string fileName,OutputType outputType);
-    void readAllFiles(OutputType outputType);
     void write(std::string fileName,std::string data);
+    void readAllFiles(OutputType outputType);
     void deleteFile(std::string fileName);
     void format();
-    void begin();
     void list();
     void deleteOldestFile();
     boolean exists(std::string fileName);
@@ -33,11 +37,12 @@ namespace storage{
 
   namespace sd{
     extern bool sdMounted;
-    bool read(std::string fileName,OutputType outputType);
-    void readAllFiles(OutputType outputType);
-    void write(std::string fileName,std::string data);
-    boolean exists(std::string fileName);
     void begin();
+    void end();
+    bool read(std::string fileName,OutputType outputType);
+    void write(std::string fileName,std::string data);
+    void readAllFiles(OutputType outputType);
+    boolean exists(std::string fileName);
     void list();
     uint64_t getTotalBytes();
     uint64_t getUsedBytes();

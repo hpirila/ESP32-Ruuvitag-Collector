@@ -27,7 +27,7 @@ class Datahandler{
     ~Datahandler();
     void printData();
     void buildMeasurement();
-    void writeSpif();
+    void writeStorage();
     void setTime();
     void setTime(time_t epochIn);
     void writeInflux();

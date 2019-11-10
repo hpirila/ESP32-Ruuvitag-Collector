@@ -24,7 +24,8 @@ void setup() {
   timer::printLocalTime();
 
   network::influx::begin();
-  storage::spif::begin();
+  storage::begin();
+
   menu::menu();  
   if(storage::spif::getFreeBytes()<8192){
     storage::spif::deleteOldestFile();
@@ -37,6 +38,7 @@ void setup() {
   global::pBLEScan->setActiveScan(false);
   BLEScanResults foundDevices = global::pBLEScan->start(global::BLEscanTime);
 
+  storage::end();
   timer::wifi::updateWifiRequirements();
   timer::deepsleep::updateBootCount();
   timer::deepsleep::start();

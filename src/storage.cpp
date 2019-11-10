@@ -5,6 +5,21 @@
 #include "timer.hpp"
 
 namespace storage{
+    void begin(){
+        spif::begin();
+        if(!config::moduleIsESP32Cam){
+            sd::begin();
+        }
+    }
+    void end(){
+        spif::end();
+        sd::end();
+    }
+    void write(std::string fileName,std::string data){
+        spif::write(fileName,data);
+        sd::write(fileName,data);
+    }
+
     namespace{
         File file;
 
@@ -281,6 +296,10 @@ namespace storage{
             }
         }
 
+        void end(){
+            SPIFFS.end();
+        }
+
         bool read(std::string fileName, OutputType outputType){
            return _readFile(SPIFFS,fsType,fileName,outputType);
         }
@@ -348,16 +367,33 @@ namespace storage{
         }
 
         void begin(){
-            if(!SD_MMC.begin()){
-                Serial.println("SD card mount failed");
-                return;
+            if(config::useSDCard){
+                if(!SD_MMC.begin()){
+                    Serial.println("SD card mount failed");
+                    return;
+                }
+                sdMounted=true;
             }
-            sdMounted=true;
+        }
+
+        void end(){
+            if(config::useSDCard){
+                SD_MMC.end();
+                if(config::moduleIsESP32Cam){
+                    pinMode(4,INPUT_PULLDOWN);
+                }
+            }
         }
 
         void write(std::string fileName,std::string data){
+            if(config::moduleIsESP32Cam){
+                begin();
+            }
             if(sdMounted){
                 _write(SD_MMC,fsType,fileName,data);
+            }
+            if(config::moduleIsESP32Cam){
+                end();
             }
         }
 

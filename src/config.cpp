@@ -93,6 +93,13 @@ namespace config{
     // Column names are used in report formats, example 'temperature' is long format and 't' is short format
     bool longColumnNames=true;
 
+
+    // Use SD card
+    bool useSDCard=false;
+    // Flashlight LED is flashing during SD card write in this ESP32 Cam module
+    // It requires special handling
+    bool moduleIsESP32Cam=false;
+
     // No more settings below 
 }
 
