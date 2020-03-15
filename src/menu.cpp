@@ -1,5 +1,5 @@
 // menu.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include "menu.hpp"
 #include "network.hpp"
 #include "storage.hpp"
@@ -176,8 +176,8 @@ namespace menu{
             config::longColumnNames=currentColumnNames;
         }
 
-        void wiFiError(){
-            Serial.println("\nError! WiFi is not connected");             
+        void networkError(){
+            Serial.println("\nError! Network is not connected");             
         }
 
         void readSelection(storage::FileSystemType fsType, char selection){
@@ -202,17 +202,17 @@ namespace menu{
                     printAllFiles(fsType,false,storage::print);
                     break;
                 case '6':
-                    if(WiFi.isConnected()){
+                    if(network::isConnected){
                         printOneFile(fsType,config::longColumnNames,storage::influx);
                     }else{
-                        wiFiError();                                   
+                        networkError();                                   
                     }
                     break;
                 case '7':
-                    if(WiFi.isConnected()){
+                    if(network::isConnected){
                         printAllFiles(fsType,config::longColumnNames,storage::influx);
                     }else{
-                        wiFiError();   
+                        networkError();                                   
                     }
                     break;
                 case '9':
@@ -307,7 +307,7 @@ namespace menu{
     }
 
     void menu(){
-        if(WiFi.isConnected() || global::bootCount<2){
+        if(global::bootCount<2){
             _menu();
         }
     }

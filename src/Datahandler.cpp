@@ -1,5 +1,5 @@
 // Datahandler.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include "Datahandler.hpp"
 #include "storage.hpp"
 #include "network.hpp"
@@ -90,7 +90,7 @@ void Datahandler::writeInflux(){
         return;
     }
 
-    if(WiFi.isConnected()){
+    if(network::isConnected){
         stream << config::influxMeasurement << ",";
         stream << "mac=" << macAddress << " ";
         stream << measurement.toString() << " ";

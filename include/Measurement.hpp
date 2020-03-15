@@ -1,5 +1,5 @@
 // Measurement.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #ifndef Measurement_hpp
 #define Measurement_hpp
 

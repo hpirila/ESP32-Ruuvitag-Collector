@@ -1,5 +1,5 @@
 // Influx.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 // Original idea from https://github.com/teebr/Influx-Arduino
 #ifndef Influx_hpp
 #define Influx_hpp

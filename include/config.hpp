@@ -1,5 +1,5 @@
 // config.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #ifndef config_h
 #define config_h
 #include <string>
@@ -13,6 +13,13 @@
 // See setting descriptions in config.cpp where you can also set values
 // Do not set any values here.
 namespace config{
+    extern const bool ethernetInUse;
+    extern const bool ethernetUseFixedIp;
+    extern const bool ethernetFallbackToWiFi;
+    extern const IPAddress ethernetFixedIPAddress;
+    extern const IPAddress ethernetFixedIPNetworkMask;
+    extern const IPAddress ethernetFixedIPGateway;
+
     extern const std::string wiFiSSD;
     extern const std::string wiFiPassword;
     extern const std::string ntpServerIP;

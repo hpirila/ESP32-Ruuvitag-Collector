@@ -1,6 +1,8 @@
 # ESP32-Ruuvitag-Collector
 This software can be used to collect measurement data from Ruuvitag Bluetooth Low Energy devices https://ruuvi.com/
 
+This branch is for Olimex ESP32-Gateway board. It supports also wired ethernet connection.
+
 Main functionalities are:
 - Influx database sending
 - MQTT publishing
@@ -14,6 +16,24 @@ Main functionalities are:
 
 ## Mandatory network configurations
 All configurations are in `config.cpp` file
+
+
+Use wired ethernet connection
+
+`ethernetInUse=true`
+    
+Use fixed ip address. With value true you need to specify also ethernetFixedIPAddress, ethernetFixedIPNetworkMask and ethernetFixedIPGateway. With value false, a DHCP is used to get IP address (automatic configuration).
+
+`ethernetUseFixedIp=false`
+
+`ethernetFixedIPAddress=IPAddress(10,10,10,2)`
+`ethernetFixedIPNetworkMask=IPAddress(255,255,255,0)`
+`ethernetFixedIPGateway=IPAddress(10,10,10,1)`
+
+Use WiFi connection if ethernet connection fails
+
+`ethernetFallbackToWiFi=true`
+
 
 WiFi SSD name
 

@@ -1,5 +1,5 @@
 // timer.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #ifndef timer_hpp
 #define timer_hpp
 #include <Arduino.h>

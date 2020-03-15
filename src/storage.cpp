@@ -1,5 +1,5 @@
 // storage.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include "storage.hpp"
 #include "network.hpp"
 #include "timer.hpp"

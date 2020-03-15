@@ -1,5 +1,5 @@
 // storage.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #ifndef storage_hpp
 #define storage_hpp
 

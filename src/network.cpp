@@ -1,15 +1,79 @@
 // network.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include "network.hpp"
 
 namespace network {
+    bool isConnected = false;
+
+    void WiFiEvent(WiFiEvent_t event){
+        switch (event) {
+            case SYSTEM_EVENT_ETH_START:
+                ETH.setHostname("ESP32-Ruuvitag-Collector");
+                break;
+            case SYSTEM_EVENT_ETH_CONNECTED:
+                break;
+            case SYSTEM_EVENT_STA_GOT_IP:
+            case SYSTEM_EVENT_ETH_GOT_IP:
+                isConnected = true;
+                break;
+            case SYSTEM_EVENT_STA_DISCONNECTED:
+            case SYSTEM_EVENT_ETH_DISCONNECTED:
+                isConnected = false;
+                break;
+            case SYSTEM_EVENT_STA_STOP:
+            case SYSTEM_EVENT_ETH_STOP:
+                isConnected = false;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void armEvents(){
+        WiFi.onEvent(WiFiEvent);
+    }
+
+    namespace ethernet {
+        void begin(){
+            int ethTimeout=0;
+            ETH.begin();
+            if(config::ethernetUseFixedIp){
+                ETH.config(config::ethernetFixedIPAddress,config::ethernetFixedIPGateway,config::ethernetFixedIPNetworkMask);
+            }
+            Serial.print("Connecting Ethernet:");
+            while (!isConnected){
+                delay(500);
+                Serial.print(".");
+                ethTimeout++;
+                if(ethTimeout>6 and not ETH.linkUp()){
+                    break;
+                }
+                if(ethTimeout>20){
+                    break;
+                }
+            }
+            Serial.println();
+            if(isConnected){
+                Serial.print("Ethernet connected. Local IP is ");
+                Serial.println(ETH.localIP());
+            }else{
+                Serial.println("Ethernet connection failed.");
+                if(!config::ethernetFallbackToWiFi){
+                    global::successfulRun=false;
+                }else{
+                    Serial.println("Attempting Wifi connection...");
+                }
+            }
+        }      
+    }
+
     namespace wifi {
         void begin(){
             WiFi.begin(config::wiFiSSD.c_str(),config::wiFiPassword.c_str());
             int wifiTimeout=0;
             Serial.print("Connecting Wifi SSID: ");
             Serial.println(config::wiFiSSD.c_str());
-            while (WiFi.status()!= WL_CONNECTED){
+            while (!isConnected){
                 delay(500);
                 Serial.print(".");
                 wifiTimeout++;
@@ -18,17 +82,17 @@ namespace network {
                 }
             }
             Serial.println();
-            if(WiFi.status() == WL_CONNECTED){
+            if(isConnected){
                 Serial.print("WiFi connected. Local IP is ");
                 Serial.println(WiFi.localIP());      
             }else{
                 global::successfulRun=false;
-            }  
+            }
         }
     }
     namespace ntp {
         void update(){
-            if(WiFi.isConnected()){
+            if(isConnected){
                 time_t timeNow;
                 Serial.print("NTP update starting... ");
                 
@@ -60,7 +124,7 @@ namespace network {
             if(global::influx.size()<1){
                 return result;
             }
-            if(WiFi.isConnected()){
+            if(isConnected){
                 for(auto i:global::influx){
                     int writeResult=i.write(dataIn);
                     switch(writeResult){
@@ -91,7 +155,7 @@ namespace network {
         PubSubClient client(espClient);
 
         void begin(){
-            if(WiFi.isConnected() && config::mqttServerIP!=std::string()){
+            if(isConnected && config::mqttServerIP!=std::string()){
                 std::string macAddress=WiFi.macAddress().c_str();
                 std::string id;
                 std::stringstream stream;
@@ -105,13 +169,13 @@ namespace network {
         }
 
         void publish(std::string topic,std::string payload){
-            if(WiFi.isConnected() && config::mqttServerIP!=std::string()){
+            if(isConnected && config::mqttServerIP!=std::string()){
                 client.publish(topic.c_str(),payload.c_str());
             }
         }
 
         void publishDiscovery(std::string mac){
-            if(WiFi.isConnected() && config::mqttServerIP!=std::string() && config::mqttHomeAssistantDiscoveryTopic!=std::string()){
+            if(isConnected && config::mqttServerIP!=std::string() && config::mqttHomeAssistantDiscoveryTopic!=std::string()){
                 struct MqttDiscovery{
                     std::string deviceClass;
                     std::string unitOfMeasurement;

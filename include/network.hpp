@@ -1,5 +1,5 @@
 // network.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #ifndef network_hpp
 #define network_hpp
 
@@ -9,8 +9,15 @@
 #include "Influx.hpp"
 #include "PubSubClient.h"
 #include <sstream>
+#include <ETH.h>
 
 namespace network {
+    extern bool isConnected;
+    void armEvents();
+    
+    namespace ethernet{
+        void begin();
+    }
     namespace wifi{
         void begin();
     }

@@ -1,5 +1,5 @@
 // menu.hpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #ifndef menu_hpp
 #define menu_hpp
 

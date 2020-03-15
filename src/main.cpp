@@ -1,5 +1,5 @@
 // main.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include <Arduino.h>
 #include "config.hpp"
 #include "AdvertisedDeviceCallbacks.hpp"
@@ -16,10 +16,17 @@ void setup() {
 
   config::setValues();
 
-  if(timer::wifi::isWifiNeeded()){
-    network::wifi::begin();
-    network::ntp::update();
+  network::armEvents();
+  if(config::ethernetInUse){
+    network::ethernet::begin();
   }
+  
+  if(!config::ethernetInUse||(config::ethernetFallbackToWiFi && !network::isConnected)){
+    if(timer::wifi::isWifiNeeded()){
+      network::wifi::begin();
+    }
+  }
+  network::ntp::update();
 
   timer::printLocalTime();
 

@@ -1,5 +1,5 @@
 // AdvertisedDeviceCallbacks.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include "AdvertisedDeviceCallbacks.hpp"
 
 using namespace std;
@@ -26,10 +26,13 @@ void AdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice advertisedDevice){
         dh.setTime();
         dh.buildMeasurement();
         dh.writeStorage();
+        Serial.print("RSSI: ");
+        Serial.println(advertisedDevice.getRSSI());
         dh.writeInflux();
         dh.sendMqtt();
+        Serial.println("----------------------------------");
     }
-    Serial.println("----------------------------------");
+
     if(config::macWhiteList.size()>0){
         if(numberOfWhiteListedResults==config::macWhiteList.size()){
             global::pBLEScan->stop();

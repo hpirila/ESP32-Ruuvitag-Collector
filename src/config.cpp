@@ -1,8 +1,19 @@
 // config.cpp - Part of ESP32 Ruuvitag Collector
-// Hannu Pirila 2019
+// Hannu Pirila 2019-2020
 #include "config.hpp"
 
 namespace config{
+    // Ethernet is used
+    const bool ethernetInUse=true;
+    // true value means Fixed IP address is used in ethernet interface
+    // false value means IP address is requested using DHCP protocol (automatic IP configuration) 
+    const bool ethernetUseFixedIp=false;
+    const IPAddress ethernetFixedIPAddress=IPAddress(10,10,10,2);
+    const IPAddress ethernetFixedIPNetworkMask=IPAddress(255,255,255,0);
+    const IPAddress ethernetFixedIPGateway=IPAddress(10,10,10,1);
+    // true value means WiFi connection is used if ethernet interface is down (cable unplugged)
+    const bool ethernetFallbackToWiFi=true;
+
     // Wifi access point name
     const std::string wiFiSSD="MyHomeWifiAP";
     // and password
@@ -83,7 +94,7 @@ namespace config{
     // Value 0 causes WiFi to turn on everyt time the ESP wakes from deep sleep. 
     // Set value zero for real-time data reporting and higher values for to save 
     // energy. All collected data while WiFi was OFF is flushed to Influx once WiFi
-    // is ON next time. Also all other network related opertaions like MQTT and and
+    // is ON next time. Also all other network related operations like MQTT and and
     // NTP are run only when WiFi is ON.
     const int turnOnWifiEvery=900;
 
