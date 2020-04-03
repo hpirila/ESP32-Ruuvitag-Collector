@@ -135,7 +135,16 @@ void Datahandler::sendMqtt(){
     stream << "{\"temperature\":" << measurement.getTemperature() << ",";
     stream << "\"humidity\":" << measurement.getHumidity() << ",";
     stream << "\"pressure\":" << measurement.getPressure() << ",";
-    stream << "\"battery\":" << (double)measurement.getVoltage()/1000 << "}";
+    stream << "\"battery\":" << (double)measurement.getVoltage()/1000 << ",";
+
+    stream << "\"accel_x\":" << measurement.getAccelX()/1000 << ",";
+    stream << "\"accel_y\":" << measurement.getAccelY()/1000 << ",";
+    stream << "\"accel_z\":" << measurement.getAccelZ()/1000 << ",";
+    stream << "\"epoch\":" << measurement.getEpoch() << ",";
+    stream << "\"txdbm\":" << measurement.getTXdBm() << ",";
+    stream << "\"move_count\":" << measurement.getMoveCount() << ",";
+    stream << "\"sequence\":" << measurement.getSequence() << "}";
+
     payload=stream.str();
     network::mqtt::publish(topic,payload);
 }

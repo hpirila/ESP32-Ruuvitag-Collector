@@ -42,6 +42,13 @@ public:
     double getHumidity();
     double getPressure();
     int getVoltage();
+    double getAccelX();
+    double getAccelY();
+    double getAccelZ();
+    int getEpoch();
+    int getTXdBm();
+    int getMoveCount();
+    int getSequence();
 
     std::string toString();
     std::string toStr(Measurement::measurementFormatT measurementFormat);

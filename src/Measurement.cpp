@@ -145,3 +145,31 @@ double Measurement::getPressure(){
 int Measurement::getVoltage(){
     return voltage;
 }
+
+double Measurement::getAccelX(){
+    return accelX;
+}
+
+double Measurement::getAccelY(){
+    return accelY;
+}
+
+double Measurement::getAccelZ(){
+    return accelZ;
+}
+
+int Measurement::getEpoch(){
+    return epoch;
+}
+
+int Measurement::getTXdBm(){
+    return power;
+}
+
+int Measurement::getMoveCount(){
+    return moveCount;
+}
+
+int Measurement::getSequence(){
+    return sequence;
+}
